@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kt.airmap.external.kma.mapper.KMAMapper">
+  
+  <select id="selectTest" resultType="java.lang.Integer">
+		 SELECT 1;
+  </select>
+  			
+  <select id="selectArea" resultType="com.kt.airmap.external.kma.vo.AreaVo">
+		SELECT distinct
+		    ycrd_val as ycrdVal2,
+			bstor_cd as bstorCd,
+			amd_dt as amdDt,
+			amd_user_id as amdUserId,
+			cret_dt as cretDt,
+			cret_user_id as cretUserId,
+			use_yn as useYn, 
+			ycrd_val as ycrdVal,
+			xcrd_val as xcrdVal
+			<!-- dong_nm as dongNm,
+			gu_nm as guNm,
+			city_nm as cityNm -->
+		FROM TB_INF_BSTOR_CD
+		WHERE ycrd_val= '127'
+		limit 5;
+   </select>
+	
+   <select id="selectForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo" resultType="java.lang.Integer">
+		SELECT COUNT(*) 	
+		FROM TB_INF_RGN_FOREC
+		WHERE PT_DATE = #{ptDate} 
+			AND PT_TIME= #{ptTime} 
+			AND FOREC_DATE= #{forecDate} 
+			AND FOREC_TIME = #{forecTime}
+			AND XCRD_VAL = #{xcrdVal}
+			AND YCRD_VAL= #{ycrdVal};
+   </select>
+   
+   <insert id = "insertForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo">
+   		INSERT INTO TB_INF_RGN_FOREC
+   		( 
+	   		pt_date,
+			pt_time,
+			forec_date,
+			forec_time,
+			xcrd_val,
+			ycrd_val,
+			prct_prbb,
+			prct_shap_cd,
+			prct_qnt_6_time,
+			humdt,
+			fsnowc_6_time,
+			sky_sttus_cd,
+			tempr_3_time,
+			lowst_tempr,
+			higst_tempr,
+			ew_ws_cmpnt,
+			sn_ws_cmpnt,
+			wvhgt,
+			wd,
+			ws,
+			cret_dt,
+			cret_user_id
+		)
+		VALUES
+		(   
+			#{ptDate},
+			#{ptTime},
+			#{forecDate},
+			#{forecTime},
+			#{xcrdVal},
+			#{ycrdVal},
+			#{prctPrbb},
+			#{prctShapCd},
+			#{prctQnt6Time},
+			#{humdt},
+			#{fsnowc6Time},
+			#{skySttusCd},
+			#{tempr3Time},
+			#{lowstTempr},
+			#{higstTempr},
+			#{ewWsCmpnt},
+			#{snWsCmpnt},
+			#{wvhgt},
+			#{wd},
+			#{ws},
+			now(),
+			#{cretUserId}
+		);
+   </insert>
+
+    <!--    -->
+     <update id="updateForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo">
+ 		UPDATE TB_INF_RGN_FOREC
+ 		<set>
+	 		<if test='prctPrbb !=null and prctPrbb !=""'> 
+	 			PRCT_PRBB = #{prctPrbb},
+	 		</if>	
+	 		<if test='prctShapCd !=null and prctShapCd !=""'> 
+				PRCT_SHAP_CD = #{prctShapCd},
+		    </if>
+			<if test='prctQnt6Time !=null and prctQnt6Time !=""'> 
+				PRCT_QNT_6_TIME = #{prctQnt6Time},
+		    </if>
+			<if test='humdt !=null and humdt !=""'> 
+				HUMDT =	#{humdt},
+		    </if>
+			<if test='fsnowc6Time !=null and fsnowc6Time !=""'> 
+				FSNOWC_6_TIME = #{fsnowc6Time},
+		    </if>
+			<if test='skySttusCd !=null and skySttusCd !=""'> 
+				SKY_STTUS_CD = #{skySttusCd},
+		    </if>
+			<if test='tempr3Time !=null and tempr3Time !=""'> 
+				TEMPR_3_TIME = #{tempr3Time},
+		    </if>
+			<if test='lowstTempr !=null and lowstTempr !=""'> 
+				LOWST_TEMPR = #{lowstTempr},
+		    </if>
+			<if test='higstTempr !=null and higstTempr !=""'> 
+				HIGST_TEMPR = #{higstTempr},
+		   </if>
+			<if test='ewWsCmpnt !=null and ewWsCmpnt !=""'> 	
+				EW_WS_CMPNT = #{ewWsCmpnt},
+		   </if>
+			<if test='snWsCmpnt !=null and snWsCmpnt !=""'> 	
+				SN_WS_CMPNT =  #{snWsCmpnt},
+		   </if>
+			<if test='wvhgt !=null and wvhgt !=""'> 	
+				WVHGT =  #{wvhgt},
+		   </if>
+			<if test='wd !=null and wd !=""'> 	
+				WD = #{wd},
+		   </if>
+			<if test='ws !=null and ws !=""'> 	
+				WS = #{ws},
+			</if>
+			CRET_DT= now(),
+		</set>
+		WHERE   PT_DATE = #{ptDate} 
+			AND PT_TIME= #{ptTime} 
+			AND FOREC_DATE= #{forecDate} 
+			AND FOREC_TIME = #{forecTime}
+			AND XCRD_VAL = #{xcrdVal}
+			AND YCRD_VAL= #{ycrdVal};
+    </update> 
+
+     <insert id = "insertLifeIndexData"  parameterType="com.kt.airmap.external.kma.vo.lifeindex.LifeIndexDataVo">
+    	 INSERT INTO MY_TEST
+    	 (
+    		PT_DATE ,   
+			PT_TIME ,   
+			INDEX_CD,   
+			BSTOR_CD,   
+			PRCT_VAL 
+    	 )
+    	 VALUES
+    	 (
+    	 	#{ptDate},
+    	 	#{ptTime},
+    	 	#{indexCd},
+    	 	#{bstorCd},
+    	 	#{prctVal}
+    	 )
+    	 
+     </insert>
+   
+   <insert id = "insertMyT" >
+   		INSERT INTO MY_T
+   		( 
+	   		my_c
+		)
+		VALUES
+		(   
+		    '40000'
+		);
+   </insert>
+
+</mapper>

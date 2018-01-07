@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    
+     <property file="${properties.airmap.path}/application.properties" /> 
+    
+    <!-- console log pattern -->
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%t] %-40.40logger{39} : %m%n%wex"/>
+
+    <property name="logging_file" value="${log.path}/${log.file}" />
+    <property name="svr_div" value="AirMapAPI" />
+    <property name="svr_category" value="API" />
+
+
+    <appender name="FILE_APPENDER"    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<encoder>
+			<pattern>%-5level %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger : %m%n</pattern>
+		</encoder>
+        <file>${logging_file}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging_file}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="API_APPENDER"    class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logging_file}-api.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging_file}-api.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${svr_div}|${svr_category}|${HOST_NAME}|%p|%d{YYYY-MM-dd HH:mm:ss.SSS}|%d{YYYY-MM-dd}|${HOST_IP}|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="DB_APPENDER"    class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logging_file}-db.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging_file}-db.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${svr_div}|${svr_category}|${HOST_NAME}|%p|%d{YYYY-MM-dd HH:mm:ss.SSS}|%d{YYYY-MM-dd}|${HOST_IP}|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+    
+        <file>${logging_file}-error.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging_file}-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${svr_div}|${svr_category}|${HOST_NAME}|%p|%d{YYYY-MM-dd HH:mm:ss.SSS}|%d{YYYY-MM-dd}|${HOST_IP}|%msg%n</pattern>
+        </encoder>
+        
+    </appender>
+
+    <appender name="ASYNC_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+    	<!-- <queueSize>1000</queueSize> -->
+    	<discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="FILE_APPENDER"/>
+    </appender>
+    
+    <appender name="ASYNC_DB_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+    	<!-- <queueSize>1000</queueSize> -->
+    	<discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="DB_APPENDER"/>
+    </appender>
+
+    <logger name="com.kt.airmap.base.interceptor.LoggingHandlerInterceptor" level="INFO">
+    	<appender-ref ref="API_APPENDER"/>
+    </logger>
+    
+    <logger name="com.kt.airmap.base.filter.LoggerFilter" level="DEBUG" />
+
+    <logger name="com.kt.airmap.base.mvc.advice.RestControllerMessageAdvice" level="DEBUG">
+    	<appender-ref ref="ERROR_APPENDER"/>
+    </logger>
+
+    <logger name="jdbc.connection" level="WARN" additivity="false" />
+    <logger name="jdbc.audit" level="WARN" additivity="false" />
+    <logger name="jdbc.sqlonly" level="WARN" additivity="false" />
+    <logger name="jdbc.sqltiming" level="INFO" additivity="false">
+        <appender-ref ref="ASYNC_DB_APPENDER" />
+    </logger>
+    <logger name="jdbc.resultset" level="WARN" additivity="false" />
+    <logger name="jdbc.resultsettable" level="WARN" additivity="false" />
+
+	<root level="${log.level}">
+		<appender-ref ref="ASYNC_FILE_APPENDER" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>
