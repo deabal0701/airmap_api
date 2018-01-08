@@ -1,5 +1,5 @@
 
-package com.kt.airmap.base.common.util;
+package com.kt.airmap.base.common;
 
 import java.io.IOException;
 import java.util.Map;

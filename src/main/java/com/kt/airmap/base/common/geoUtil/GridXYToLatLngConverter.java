@@ -1,4 +1,4 @@
-package com.kt.airmap.base.common.util;
+package com.kt.airmap.base.common.geoUtil;
 
 public class GridXYToLatLngConverter {
 
@@ -83,11 +83,5 @@ public class GridXYToLatLngConverter {
 	}
 }
 
-class LatXLngY {
 
-	public double lat;
-	public double lng;
-	public double x;
-	public double y;
-}
 

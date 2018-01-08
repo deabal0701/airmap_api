@@ -1,5 +1,6 @@
 package com.kt.airmap;
 
+import java.nio.charset.Charset;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
@@ -15,10 +16,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -80,7 +84,12 @@ public class AirMapApplication extends SpringBootServletInitializer implements W
     //    dbLoggingFilter.addMappingForUrlPatterns(dispatcherTypes, true, "/system/*");
     //    dbLoggingFilter.setAsyncSupported(true);
         
-  
+      
 		super.onStartup(servletContext);
 	}
+	
+	/*  @Bean
+      public HttpMessageConverter<String> responseBodyConverter() {
+          return new StringHttpMessageConverter(Charset.forName("UTF-8"));
+      }*/
 }

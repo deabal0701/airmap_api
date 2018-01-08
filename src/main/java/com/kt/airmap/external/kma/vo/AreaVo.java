@@ -22,6 +22,12 @@ public class AreaVo {
 	/** 격자 Y */
 	private Integer ycrdVal;
 	
+	/** 위도 */
+	private Double latitVal;
+	
+	/** 경도 */
+	private Double lngitVal;
+		
 	/** 사용 여부 */
 	private String useYn;
 	
@@ -83,6 +89,22 @@ public class AreaVo {
 
 	public void setYcrdVal(Integer ycrdVal) {
 		this.ycrdVal = ycrdVal;
+	}
+    
+	public Double getLatitVal() {
+		return latitVal;
+	}
+
+	public void setLatitVal(Double latitVal) {
+		this.latitVal = latitVal;
+	}
+
+	public Double getLngitVal() {
+		return lngitVal;
+	}
+
+	public void setLngitVal(Double lngitVal) {
+		this.lngitVal = lngitVal;
 	}
 
 	public String getUseYn() {

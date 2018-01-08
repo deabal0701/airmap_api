@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kt.airmap.Const;
 import com.kt.airmap.base.adaptor.KMAAdaptorService;
-import com.kt.airmap.base.common.util.ObjectConverter;
+import com.kt.airmap.base.common.ObjectConverter;
 import com.kt.airmap.external.kma.base.message.KMALifeIndexResponseCode;
 import com.kt.airmap.external.kma.base.message.KMALifeindexResponse;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;

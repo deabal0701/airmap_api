@@ -22,4 +22,8 @@ public interface KMAMapper {
 	void insertMyT();
 
 	void insertLifeIndexData(LifeIndexDataVo lifeIndexDataVo);
+
+	void insertLocationCode(AreaVo areaVo);
+
+	void deleteLocationCode();
 }

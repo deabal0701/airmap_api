@@ -36,28 +36,29 @@ public class SensibleTempConfiguration {
 	@Autowired
 	private SimpleJobLauncher jobLauncher;
 	
-	@Scheduled(cron="${cron.expression}")
+	//@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 
-		System.out.println("Job Started at :" + new Date());
-
-		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))
+		JobParameters param = new JobParametersBuilder()
+				.addString("JobID", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
-
 		JobExecution execution = jobLauncher.run(sensibleTemp_Job(), param);
-
-		System.out.println("Job finished with status :" + execution.getStatus());
 	}
 	
 	@Bean
 	public Job sensibleTemp_Job() {
-		return jobBuilderFactory.get("sensibleTemp_Job").incrementer(new RunIdIncrementer()).flow(sensibleTemp_step()).end().build();
+		return jobBuilderFactory.get("sensibleTemp_Job")
+				.incrementer(new RunIdIncrementer())
+				.flow(sensibleTemp_step())
+				.end().build();
 	}
-		
 	
 	@Bean
 	public Step sensibleTemp_step() {
-		return stepBuilderFactory.get("sensibleTemp_step").tasklet(sensibleTempTasklet()).build();
+		return stepBuilderFactory
+				.get("sensibleTemp_step")
+				.tasklet(sensibleTempTasklet())
+				.build();
 	}
 		
 	@Bean

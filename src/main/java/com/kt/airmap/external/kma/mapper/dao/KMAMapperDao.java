@@ -47,5 +47,16 @@ public class KMAMapperDao {
 		kMAMapper.insertLifeIndexData(lifeIndexDataVo);
 	}
 
+	public void addLocationCode(AreaVo areaVo) {
+		
+		kMAMapper.insertLocationCode(areaVo);
+		
+	}
+
+	public void delLocationCode() {
+		kMAMapper.deleteLocationCode();
+		
+	}
+
 
 }

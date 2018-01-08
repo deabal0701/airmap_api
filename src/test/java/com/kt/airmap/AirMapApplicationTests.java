@@ -3,11 +3,14 @@ package com.kt.airmap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kt.airmap.base.adaptor.KMALocAdaptorService;
+import com.kt.airmap.external.kma.service.LocationCodeService;
 import com.kt.airmap.external.kma.vo.forcast.ForecastResponseVo;
 
 @RunWith(SpringRunner.class)
@@ -16,6 +19,9 @@ import com.kt.airmap.external.kma.vo.forcast.ForecastResponseVo;
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AirMapApplicationTests {
 
+	@Autowired
+	LocationCodeService locationCodeService;
+	
 //	@Autowired
 //	ForecastMgrService forcastMgrService;
 //	
@@ -68,5 +74,11 @@ public class AirMapApplicationTests {
 		} else {
 			System.out.println("연동실패==>" + p.getHeader().getResultCode());
 		}
+	}
+	
+	@Test
+	public void kmaLocAdaptorService(){
+	
+		locationCodeService.locationCode("2018010811");
 	}
 }

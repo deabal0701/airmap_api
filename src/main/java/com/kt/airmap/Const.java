@@ -32,7 +32,21 @@ public class Const {
 	/** 생활지수 - 대기오염 확산지수 */
 	public static final String KMA_LIFE_WEATHER_AIR_POLLUTION_URI = "/iros/RetrieveLifeIndexService2/getAirpollutionLifeList";
 	
+	/** 지역코드 최상 노드 */
+	public static final String KMA_LOCATION_CODE_TOP_URI = "/DFSROOT/POINT/DATA/top.json.txt";
+	/** 지역코드 중간 노드 */
+	public static final String KMA_LOCATION_CODE_MDL_URI = "/DFSROOT/POINT/DATA/mdl.%s.json.txt";
+	/** 지역코드 최하 노드 */
+	public static final String KMA_LOCATION_CODE_LEAF_URI = "/DFSROOT/POINT/DATA/leaf.%s.json.txt";
 	
+//	//최상 노드 URL
+//    private final String topURL = "http://www.kma.go.kr/DFSROOT/POINT/DATA/top.json.txt";
+//    //중간 노드 URL
+//    private final String mdlURL = "http://www.kma.go.kr/DFSROOT/POINT/DATA/mdl.%s.json.txt";        
+//    //최하 노드 URL
+//    private final String leafURL = "http://www.kma.go.kr/DFSROOT/POINT/DATA/leaf.%s.json.txt";
+    
+    
 	
 	/** 동네예보(실황, 초단기 예보, 동네예보) 서비스 키*/
 	public static final String KMA_DIST_FORCAST_SPACE_SERVICE_KEY = "ri2HK3TW12dyrwDtk6jUK4W1b3w46GY3weGUg7l0kx0H3I%2Bc1l2kuTyKDUZPXQvPeW05bPShKSkfFjVR%2BSUUEg%3D%3D";

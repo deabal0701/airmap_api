@@ -10,14 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kt.airmap.Const;
 import com.kt.airmap.base.adaptor.KMAAdaptorService;
 import com.kt.airmap.base.common.NumberUtil;
-import com.kt.airmap.base.common.util.ObjectConverter;
+import com.kt.airmap.base.common.ObjectConverter;
 import com.kt.airmap.external.kma.base.message.KMAForecastResponse;
 import com.kt.airmap.external.kma.base.message.KMAForecastResponseCode;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;

@@ -31,7 +31,7 @@ public class BatchConfiguration {
 	}
 	
 	
-/*	*//** DB에Batch관련 테이블 생성하지 않고 DB기록 하지 않음 *//*
+	/** DB에Batch관련 테이블 생성하지 않고 DB기록 하지 않음 */
 	@Bean
 	public BatchConfigurer batchConfigurer() {
 		
@@ -86,5 +86,5 @@ public class BatchConfiguration {
         }
     };
     return configurer;
-	}*/
+	}
 }

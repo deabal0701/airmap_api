@@ -164,8 +164,45 @@
     	 )
     	 
      </insert>
+     
+     <insert id = "insertLocationCode" parameterType="com.kt.airmap.external.kma.vo.AreaVo">
+   		INSERT INTO TB_INF_BSTOR_CD
+   		( 
+	   		BSTOR_CD,
+			CITY_NM ,
+			GU_NM   ,
+			DONG_NM ,
+			XCRD_VAL,
+			YCRD_VAL,
+			LATIT_VAL,
+			LNGIT_VAL,
+			USE_YN,
+			CRET_DT,
+			AMD_DT      
+		)
+		VALUES
+		(   
+		   	#{bstorCd},
+			#{cityNm},
+			#{guNm},
+			#{dongNm},
+			#{xcrdVal},
+			#{ycrdVal},
+			#{latitVal},
+			#{lngitVal},
+			#{useYn},
+			now(),
+			now()
+		);
+    </insert>
    
-   <insert id = "insertMyT" >
+    
+    <delete id = "deleteLocationCode">
+   		DELETE FROM TB_INF_BSTOR_CD;
+    </delete>
+   
+   
+    <insert id = "insertMyT" >
    		INSERT INTO MY_T
    		( 
 	   		my_c

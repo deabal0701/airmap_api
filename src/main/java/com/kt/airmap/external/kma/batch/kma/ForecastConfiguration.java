@@ -34,7 +34,7 @@ public class ForecastConfiguration {
 	private SimpleJobLauncher jobLauncher;
 	
 
-    @Scheduled(cron="${cron.expression}")
+    //@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 
 		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))

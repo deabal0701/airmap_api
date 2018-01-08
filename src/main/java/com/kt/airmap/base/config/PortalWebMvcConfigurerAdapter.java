@@ -1,6 +1,7 @@
 
 package com.kt.airmap.base.config;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -12,6 +13,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
@@ -64,7 +66,16 @@ public class PortalWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
         super.configureMessageConverters(messageConverters);
     }
-
+    
+//    @Bean
+//    public HttpMessageConverter<String> createStringHttpMessageConverter() {
+//
+//        StringHttpMessageConverter converter = new StringHttpMessageConverter (Charset.forName("UTF-8"));
+//        converter.setDefaultCharset(Charset.forName("UTF-8"));
+//        converter.setSupportedMediaTypes(Arrays.asList(MediaType.ALL));
+//        return converter;
+//    }
+    
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.jsp("/WEB-INF/views/", ".jsp");
