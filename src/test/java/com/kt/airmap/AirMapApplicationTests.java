@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kt.airmap.base.adaptor.KMALocAdaptorService;
-import com.kt.airmap.external.kma.dto.forecast.ForecastResponseDto;
 import com.kt.airmap.external.kma.service.LocationCodeService;
+import com.kt.airmap.external.kma.vo.forcast.ForecastResponse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AirMapApplication.class)
@@ -66,7 +66,7 @@ public class AirMapApplicationTests {
 		String json = "{\"response\":{\"header\":{\"resultCode\":\"99\",\"resultMsg\":\"최근 1일 간의 자료만 제공합니다.\"}}}";
 		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss.SSS").create();
-		ForecastResponseDto p = gson.fromJson(json, ForecastResponseDto.class);
+		ForecastResponse p = gson.fromJson(json, ForecastResponse.class);
 		if (p.getHeader().getResultCode().equals("0000")) {
 			/*if (p.getBody().getItems().getItem().size() > 0) {
 				System.out.println("p.getBody().getItems().getItem().size()");

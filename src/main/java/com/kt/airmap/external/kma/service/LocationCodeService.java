@@ -15,10 +15,10 @@ import com.kt.airmap.Const;
 import com.kt.airmap.base.adaptor.KMALocAdaptorService;
 import com.kt.airmap.base.common.geoUtil.GridXYToLatLngConverter;
 import com.kt.airmap.base.common.geoUtil.LatXLngY;
-import com.kt.airmap.external.kma.dto.TownDto;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;
 import com.kt.airmap.external.kma.service.forecast.ForecastService;
 import com.kt.airmap.external.kma.vo.AreaVo;
+import com.kt.airmap.external.kma.vo.Area;
 
 @Service
 public class LocationCodeService {
@@ -42,16 +42,16 @@ public class LocationCodeService {
     //private List<TownDTO> mdlList = new ArrayList<TownDTO>();
     //private List<TownDTO> leafList = new ArrayList<TownDTO>();
     
-    private List<TownDto> topList = null;
-    private List<TownDto> mdlList = null;
-    private List<TownDto> leafList = null;
+    private List<Area> topList = null;
+    private List<Area> mdlList = null;
+    private List<Area> leafList = null;
     
 	
 	public void locationCode(String stdDateTime) {
 	
-		topList = new ArrayList<TownDto>();
-		mdlList = new ArrayList<TownDto>();
-		leafList = new ArrayList<TownDto>();
+		topList = new ArrayList<Area>();
+		mdlList = new ArrayList<Area>();
+		leafList = new ArrayList<Area>();
 		 
 	    JSONArray jsonArray =null;
 		
@@ -64,14 +64,14 @@ public class LocationCodeService {
 	    parseJSON(topList, jsonArray, null, null,null,null, false);
         
         //중간 노드
-        for(TownDto dto : topList) {
+        for(Area dto : topList) {
         	String midStr = (String) this.kmaLocAdaptorService.get(String.format(Const.KMA_LOCATION_CODE_MDL_URI,dto.getCode()), null, String.class);
         	jsonArray = (JSONArray) JSONValue.parse(midStr);
         	parseJSON(mdlList, jsonArray, dto.getCode(), dto.getName(),null, null, false);
         }
         
         //최하 노드
-        for(TownDto dto : mdlList) {
+        for(Area dto : mdlList) {
         	String leafStr   = (String) this.kmaLocAdaptorService.get(String.format(Const.KMA_LOCATION_CODE_LEAF_URI,dto.getCode()), null, String.class);
           	jsonArray = (JSONArray) JSONValue.parse(leafStr);
           	parseJSON(leafList, jsonArray, dto.getCode(), dto.getName(), dto.getParentCode(),dto.getParentName() ,true);
@@ -79,22 +79,22 @@ public class LocationCodeService {
     
 	}
 	
-	private List<TownDto> parseJSON(List<TownDto> list, JSONArray array, String parentCode, String parentName,
+	private List<Area> parseJSON(List<Area> list, JSONArray array, String parentCode, String parentName,
 			String pParentCode, String pParentName, boolean isLast) {
 
 		JSONObject data = null;
-		TownDto town = null;
+		Area town = null;
 		for (int i = 0; i < array.size(); i++) {
 			data = (JSONObject) array.get(i);
 
 			if (!isLast) {
 				// 최상, 중간 노드
-				town = new TownDto(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
+				town = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
 						parentName, pParentCode, pParentName);
 
 			} else {
 				// 최하 노드
-				town = new TownDto(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
+				town = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
 						parentName, pParentCode, pParentName, data.get(KEY_X).toString(), data.get(KEY_Y).toString());
 
 				//Todo : DB 저장 

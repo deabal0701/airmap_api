@@ -1,6 +1,6 @@
-package com.kt.airmap.external.kma.dto.lifeindex;
+package com.kt.airmap.external.kma.vo.lifeindex;
 
-public class LifeIndexResponseDto {
+public class LifeIndexResponse {
 	
 	private HeaderVo header;
 	private BodyVo body;
