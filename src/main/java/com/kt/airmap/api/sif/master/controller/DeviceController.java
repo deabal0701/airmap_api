@@ -45,14 +45,6 @@ public class DeviceController {
 		return response;
 	}
 	
-	@RequestMapping(value="/test/test", method=GET)
-	private String TransactionTest(){
-		String str = null;
-		
-		str = deviceService.addTest();
-		
-		return str;
-		
-	}
+	
 	
 }

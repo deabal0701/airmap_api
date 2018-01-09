@@ -13,10 +13,10 @@ import com.kt.airmap.base.adaptor.KMAAdaptorService;
 import com.kt.airmap.base.common.ObjectConverter;
 import com.kt.airmap.external.kma.base.message.KMALifeIndexResponseCode;
 import com.kt.airmap.external.kma.base.message.KMALifeindexResponse;
+import com.kt.airmap.external.kma.dto.lifeindex.LifeIndexResponseDto;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;
 import com.kt.airmap.external.kma.vo.AreaVo;
 import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexDataVo;
-import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexResponseVo;
 
 @Service
 public class LifeIndexService  {
@@ -62,7 +62,7 @@ public class LifeIndexService  {
 				Map<String, Object> responseData = (HashMap<String,Object>) response.getResponse();
 				if (responseData.size() > 0) {
 							
-					LifeIndexResponseVo p = ObjectConverter.toObject(responseData, LifeIndexResponseVo.class);
+					LifeIndexResponseDto p = ObjectConverter.toObject(responseData, LifeIndexResponseDto.class);
 					if(p.getHeader().getReturnCode().equals(KMALifeIndexResponseCode.OK.getValue())){
 			
 						LifeIndexDataVo lifeIndexDataVo = new LifeIndexDataVo();

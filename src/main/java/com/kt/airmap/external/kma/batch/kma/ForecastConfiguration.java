@@ -37,7 +37,8 @@ public class ForecastConfiguration {
     //@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 
-		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))
+		JobParameters param = new JobParametersBuilder()
+				.addString("JobID", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
 
 		JobExecution execution = jobLauncher.run(forecast_job(), param);
@@ -46,12 +47,18 @@ public class ForecastConfiguration {
 	
 	@Bean
 	public Job forecast_job() {
-		return jobBuilderFactory.get("forecast_job").incrementer(new RunIdIncrementer()).flow(forecast_step()).end().build();
+		return jobBuilderFactory.get("forecast_job")
+				.incrementer(new RunIdIncrementer())
+				.flow(forecast_step())
+				.end()
+				.build();
 	}
 
 	@Bean
 	public Step forecast_step() {
-		return stepBuilderFactory.get("forecast_step").tasklet(forecastTasklet()).build();
+		return stepBuilderFactory.get("forecast_step")
+				.tasklet(forecastTasklet())
+				.build();
 	}
 		
 	@Bean

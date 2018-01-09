@@ -19,9 +19,9 @@ import com.kt.airmap.base.common.NumberUtil;
 import com.kt.airmap.base.common.ObjectConverter;
 import com.kt.airmap.external.kma.base.message.KMAForecastResponse;
 import com.kt.airmap.external.kma.base.message.KMAForecastResponseCode;
+import com.kt.airmap.external.kma.dto.forecast.ForecastResponseDto;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;
 import com.kt.airmap.external.kma.vo.AreaVo;
-import com.kt.airmap.external.kma.vo.forcast.ForecastResponseVo;
 import com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo;
 
 /**
@@ -90,16 +90,16 @@ public class ForecastService {
 				Map<String, Object> responseData = (HashMap<String,Object>) response.getResponse();
 				if (responseData.size() > 0) {
 							
-					ForecastResponseVo p = ObjectConverter.toObject(responseData, ForecastResponseVo.class);
+					ForecastResponseDto p = ObjectConverter.toObject(responseData, ForecastResponseDto.class);
 					
 					/** 성공인 경우 */
 					if(p.getHeader().getResultCode().equals(KMAForecastResponseCode.OK.getValue()) && p.getBody().getTotalCount() > 0){
 						if (p.getBody().getItems().getItem().size() > 0) {
-							Iterator<ForecastResponseVo.BodyVo.ItemsVo.ItemVo> iterItem = p.getBody().getItems().getItem().iterator();
+							Iterator<ForecastResponseDto.BodyVo.ItemsVo.ItemVo> iterItem = p.getBody().getItems().getItem().iterator();
 							ForecastSpaceDataVo forecastSpaceDataVo = new ForecastSpaceDataVo();
 							
 							while (iterItem.hasNext()) {
-								ForecastResponseVo.BodyVo.ItemsVo.ItemVo itemVo = iterItem.next();
+								ForecastResponseDto.BodyVo.ItemsVo.ItemVo itemVo = iterItem.next();
 					
 								logger.debug("ItemVo baseDate:" + itemVo.getBaseDate());
 								logger.debug("ItemVo fcstValue:" + itemVo.getFcstValue());

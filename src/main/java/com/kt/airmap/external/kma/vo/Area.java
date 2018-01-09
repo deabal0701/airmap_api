@@ -1,7 +1,7 @@
-package com.kt.airmap.external.kma.vo;
+package com.kt.airmap.external.kma.dto;
 
 
-public class TownDTO {
+public class TownDto {
 
 	private String code;
 	private String name;
@@ -12,7 +12,7 @@ public class TownDTO {
 	private String gridX;
 	private String gridY;
 	    
-	public TownDTO(String code, String name, String parentCode, String parentName, String gridX, String gridY) {
+	public TownDto(String code, String name, String parentCode, String parentName, String gridX, String gridY) {
 		super();
 		this.code = code;
 		this.name = name;
@@ -22,7 +22,7 @@ public class TownDTO {
 		this.gridY = gridY;
 	}
 
-	public TownDTO(String code, String name, String parentCode, String parentName) {
+	public TownDto(String code, String name, String parentCode, String parentName) {
 		super();
 		this.code = code;
 		this.name = name;
@@ -30,7 +30,7 @@ public class TownDTO {
 		this.parentName = parentName;
 	}
 
-	public TownDTO(String code, String name, String parentCode, String parentName, String pParentCode,
+	public TownDto(String code, String name, String parentCode, String parentName, String pParentCode,
 			String pParentName, String gridX, String gridY) {
 		super();
 		this.code = code;

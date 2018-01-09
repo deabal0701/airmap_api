@@ -1,9 +1,9 @@
-package com.kt.airmap.external.kma.vo.forcast;
+package com.kt.airmap.external.kma.dto.forecast;
 
 import java.util.List;
 
 //@JsonInclude(Include.NON_NULL)
-public class ForecastResponseVo {
+public class ForecastResponseDto {
 	
 	private HeaderVo header;
 	private BodyVo body;

@@ -34,21 +34,5 @@ public class DeviceService {
 		return response;
 	}
 
-	@Transactional
-	public String addTest() {
-	
-		kMAMapperDao.addTest();
-		
-		kMAMapperDao.addTest();
-		
-		if(true){
-			throw new DataNotFoundException(); 
-		}
-		
-		kMAMapperDao.addTest();
-		
-		return "aa";
-		
-	}
-	
+
 }
