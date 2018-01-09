@@ -1,5 +1,5 @@
 
-package com.kt.airmap.base.config;
+package com.kt.airmap.config;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;

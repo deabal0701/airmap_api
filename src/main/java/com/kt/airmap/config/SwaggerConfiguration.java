@@ -1,5 +1,5 @@
 
-package com.kt.airmap.base.config;
+package com.kt.airmap.config;
 
 import javax.servlet.ServletContext;
 
