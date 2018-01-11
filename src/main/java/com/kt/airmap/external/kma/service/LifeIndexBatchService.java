@@ -1,5 +1,6 @@
-package com.kt.airmap.external.kma.service.lifeindex;
+package com.kt.airmap.external.kma.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,11 +17,11 @@ import com.kt.airmap.external.kma.base.message.KMALifeIndexResponseCode;
 import com.kt.airmap.external.kma.base.message.KMALifeindexResponse;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;
 import com.kt.airmap.external.kma.vo.AreaVo;
-import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo;
 import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexResponse;
+import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo;
 
 @Service
-public class LifeIndexService  {
+public class LifeIndexBatchService {
 
 	@Autowired
 	protected KMAAdaptorService airmapApiService;
@@ -31,7 +32,7 @@ public class LifeIndexService  {
 	@Autowired
 	protected  KMAMapperDao kMAMapperDao;
 	
-	public void lifeIndex(String stdDateTime, String urlPath) {
+	public List<LifeIndexVo> lifeIndex(String stdDateTime, String urlPath) {
 		
 		Map<String, String> parameter = new HashMap<String, String>();
 	
@@ -42,21 +43,18 @@ public class LifeIndexService  {
 		//해당 서비스 키 설정
 		parameter.put("serviceKey", Const.KMA_LIFE_WEATHER_INDEX_SERVICE_KEY);
 	
-		try{
-			lifeIndexData(stdDateTime,parameter,urlPath);
-		}catch(Exception e){
-			//todo : exception 기록
-			System.out.println("Exception Occurred");
-			throw new RuntimeException();
-		}
+		
+		List<LifeIndexVo> lifeIndexList = lifeIndexData(stdDateTime,parameter,urlPath);
+	
+		return lifeIndexList;
 	}
 
-
-	public void lifeIndexData(String stdDateTime, Map<String, String> parameter,String urlPath) throws Exception  {
+	public List<LifeIndexVo> lifeIndexData(String stdDateTime, Map<String, String> parameter,String urlPath){
 		
 		List<AreaVo> areaListVo = extCommService.getAreaList(Const.AREA.KMA_AREA_CODE);
 	 	Iterator<AreaVo> iterator = areaListVo.iterator();
  		
+	 	List<LifeIndexVo> lifeIndexVoList = new ArrayList<LifeIndexVo>();
  		while(iterator.hasNext()){
  	
  			AreaVo areaVo = iterator.next();
@@ -87,13 +85,16 @@ public class LifeIndexService  {
 					    	lifeIndexVo.setForecVal(p.getBody().getIndexModel().getH3());
 					    }
 						
-						kMAMapperDao.addLifeIndex(lifeIndexVo);
+						lifeIndexVoList.add(lifeIndexVo);
 					}
 				}
 			}else{
 				throw new RuntimeException();
 			}
  		}
+ 		
+ 		return lifeIndexVoList;
+ 		
 	}
 
 }

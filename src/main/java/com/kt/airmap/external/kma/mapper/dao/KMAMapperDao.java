@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kt.airmap.external.kma.mapper.KMAMapper;
 import com.kt.airmap.external.kma.vo.AreaVo;
-import com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo;
-import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexDataVo;
+import com.kt.airmap.external.kma.vo.forcast.ForecastGripVo;
+import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo;
 
 @Repository
 public class KMAMapperDao {
@@ -21,42 +22,24 @@ public class KMAMapperDao {
 		return  kMAMapper.selectTest();
 	}
 
-	public List<AreaVo> getArea() {
-		return kMAMapper.selectArea();
-	}
-	
-
-	public void addForecastSpaceData(ForecastSpaceDataVo forecastSpaceDataVo) throws Exception {
-		
-			Integer existCnt = kMAMapper.selectForecastSpaceData(forecastSpaceDataVo);
-		
-			if(existCnt > 0){
-				kMAMapper.updateForecastSpaceData(forecastSpaceDataVo);
-			}else{
-				kMAMapper.insertForecastSpaceData(forecastSpaceDataVo);
-			}
-		
+	public List<AreaVo> getArea(String selType) {
+		return kMAMapper.selectArea(selType);
 	}
 
-	public String addTest() {
-		kMAMapper.insertMyT();
-		return "aaa";
-	}
-
-	public void addLifeIndexData(LifeIndexDataVo lifeIndexDataVo) {
-		kMAMapper.insertLifeIndexData(lifeIndexDataVo);
+	public void addLifeIndex(LifeIndexVo lifeIndexVo) {
+		kMAMapper.insertLifeIndex(lifeIndexVo);
 	}
 
 	public void addLocationCode(AreaVo areaVo) {
-		
 		kMAMapper.insertLocationCode(areaVo);
-		
 	}
 
 	public void delLocationCode() {
 		kMAMapper.deleteLocationCode();
-		
 	}
 
+	public void addForecastGrip(ForecastGripVo forecastGripVo) {
+		kMAMapper.insertForecastGrip(forecastGripVo);
+	}
 
 }

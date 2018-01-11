@@ -1,7 +1,6 @@
-package com.kt.airmap.external.kma.batch.kma;
+package com.kt.airmap.external.kma.batch;
 
-import java.util.Date;
-
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -19,15 +18,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.kt.airmap.base.common.DateUtil;
-import com.kt.airmap.external.kma.batch.kma.tasklet.FoodPosioningTasklet;
-import com.kt.airmap.external.kma.batch.kma.tasklet.LocationCodeTasklet;
+import com.kt.airmap.external.kma.batch.tasklet.SensibleTempTasklet;
 
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
-public class LocationCodeConfiguration {
+public class SensibleTempConfiguration {
 
-
+	private static Logger log = Logger.getLogger(SensibleTempConfiguration.class); 
+	
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
 
@@ -37,41 +36,36 @@ public class LocationCodeConfiguration {
 	@Autowired
 	private SimpleJobLauncher jobLauncher;
 	
-	
-    @Scheduled(cron="${cron.loc.expression}")
+	//@Scheduled(cron="${cron.life.sens.expr}")
 	public void perform() throws Exception {
 
-    	System.out.println("Job Started at :" + new Date());
 		JobParameters param = new JobParametersBuilder()
-				.addString("LocationCode_JobID", String.valueOf(System.currentTimeMillis()))
+				.addString("JobID", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
-		
-		JobExecution execution = jobLauncher.run(locationCode_Job(), param);
-	
+		JobExecution execution = jobLauncher.run(sensibleTemp_Job(), param);
+		log.debug(execution.getCreateTime());
 	}
 	
 	@Bean
-	public Job locationCode_Job() {
-		return jobBuilderFactory.get("locationCode_Job")
+	public Job sensibleTemp_Job() {
+		return jobBuilderFactory.get("sensibleTemp_Job")
 				.incrementer(new RunIdIncrementer())
-				.flow(locationCode_Step())
-				.end()
-				.build();
+				.flow(sensibleTemp_step())
+				.end().build();
 	}
-
-	@Bean
-	public Step locationCode_Step() {
-		return stepBuilderFactory.get("locationCode_Step")
-				.tasklet(locationCodeTasklet())
-				.build();
-	}
-
 	
-
 	@Bean
-	public LocationCodeTasklet locationCodeTasklet() {
+	public Step sensibleTemp_step() {
+		return stepBuilderFactory
+				.get("sensibleTemp_step")
+				.tasklet(sensibleTempTasklet())
+				.build();
+	}
 		
-		LocationCodeTasklet tasklet = new LocationCodeTasklet();
+	@Bean
+	public SensibleTempTasklet sensibleTempTasklet() {
+		
+		SensibleTempTasklet tasklet = new SensibleTempTasklet();
 		tasklet.setDateTime(DateUtil.getToday(),DateUtil.getTime().substring(0,2));
 
 		return tasklet;

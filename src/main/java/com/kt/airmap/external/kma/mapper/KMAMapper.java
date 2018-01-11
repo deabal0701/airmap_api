@@ -3,27 +3,21 @@ package com.kt.airmap.external.kma.mapper;
 import java.util.List;
 
 import com.kt.airmap.external.kma.vo.AreaVo;
-import com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo;
-import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexDataVo;
+import com.kt.airmap.external.kma.vo.forcast.ForecastGripVo;
+import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo;
 
 public interface KMAMapper {
 	
 
 	Integer selectTest();
 	
-	List<AreaVo> selectArea();
+	List<AreaVo> selectArea(String selType);
 
-	void insertForecastSpaceData(ForecastSpaceDataVo forecastSpaceDataVo);
-
-	Integer selectForecastSpaceData(ForecastSpaceDataVo forecastSpaceDataVo);
-
-	void updateForecastSpaceData(ForecastSpaceDataVo forecastSpaceDataVo);
-
-	void insertMyT();
-
-	void insertLifeIndexData(LifeIndexDataVo lifeIndexDataVo);
+	void insertLifeIndex(LifeIndexVo lifeIndexVo);
 
 	void insertLocationCode(AreaVo areaVo);
 
 	void deleteLocationCode();
+
+	void insertForecastGrip(ForecastGripVo forecastGripVo);
 }

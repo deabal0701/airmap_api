@@ -94,9 +94,7 @@ public class ForecastResponse {
 				private String baseDate;
 				private String baseTime;
 				private String category;
-				private String fcstDate;
-				private String fcstTime;
-				private Object fcstValue;
+				private Object obsrValue;
 				private Integer nx;
 				private Integer ny;
 				
@@ -118,23 +116,11 @@ public class ForecastResponse {
 				public void setCategory(String category) {
 					this.category = category;
 				}
-				public String getFcstDate() {
-					return fcstDate;
+				public Object getObsrValue() {
+					return obsrValue;
 				}
-				public void setFcstDate(String fcstDate) {
-					this.fcstDate = fcstDate;
-				}
-				public String getFcstTime() {
-					return fcstTime;
-				}
-				public void setFcstTime(String fcstTime) {
-					this.fcstTime = fcstTime;
-				}
-				public Object getFcstValue() {
-					return fcstValue;
-				}
-				public void setFcstValue(Object fcstValue) {
-					this.fcstValue = fcstValue;
+				public void setObsrValue(Object obsrValue) {
+					this.obsrValue = obsrValue;
 				}
 				public Integer getNx() {
 					return nx;

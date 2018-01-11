@@ -6,26 +6,22 @@
 		 SELECT 1;
   </select>
   			
-  <select id="selectArea" resultType="com.kt.airmap.external.kma.vo.AreaVo">
-		SELECT distinct
-		    ycrd_val as ycrdVal2,
-			bstor_cd as bstorCd,
-			amd_dt as amdDt,
-			amd_user_id as amdUserId,
-			cret_dt as cretDt,
-			cret_user_id as cretUserId,
-			use_yn as useYn, 
+  <select id="selectArea" parameterType = "java.lang.String" resultType="com.kt.airmap.external.kma.vo.AreaVo" >
+	SELECT 
+		distinct 
+		<if test="value != null and value = 'CODE'" >
+			bstor_cd as bstorCd 
+		</if>	
+		<if test="value != null and value == 'GRID'" >
 			ycrd_val as ycrdVal,
 			xcrd_val as xcrdVal
-			<!-- dong_nm as dongNm,
-			gu_nm as guNm,
-			city_nm as cityNm -->
+		</if>	
 		FROM TB_INF_BSTOR_CD
 		WHERE ycrd_val= '127'
 		limit 5;
    </select>
 	
-   <select id="selectForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo" resultType="java.lang.Integer">
+   <!-- <select id="selectForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo" resultType="java.lang.Integer">
 		SELECT COUNT(*) 	
 		FROM TB_INF_RGN_FOREC
 		WHERE PT_DATE = #{ptDate} 
@@ -34,9 +30,9 @@
 			AND FOREC_TIME = #{forecTime}
 			AND XCRD_VAL = #{xcrdVal}
 			AND YCRD_VAL= #{ycrdVal};
-   </select>
+   </select> -->
    
-   <insert id = "insertForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo">
+   <!-- <insert id = "insertForecastGrip" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastGripVo">
    		INSERT INTO TB_INF_RGN_FOREC
    		( 
 	   		pt_date,
@@ -87,10 +83,51 @@
 			now(),
 			#{cretUserId}
 		);
-   </insert>
+   </insert> -->
 
+
+   <insert id = "insertForecastGrip" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastGripVo">
+   		INSERT INTO TB_INF_SHRT_NOW_TXN(
+	            PT_DATE, 
+	            PT_TIME, 
+	            XCRD_VAL, 
+	            YCRD_VAL, 
+	            TEMPR_VAL, 
+	            PRCP_1_TIME_QNT, 
+	            SKY_STTUS_CD, 
+	            EW_WIND_CMPNT_VAL, 
+	            SN_WIND_CMPNT_VAL, 
+	            HUMDT_RATE, 
+	            PRCP_SHAP_CD, 
+	            THNBLT_CD, 
+	            WD_VAL, 
+	            WS_VAL, 
+	            CRET_DT, 
+	            CRET_USER_ID
+            )
+            VALUES
+            (
+            	#{ptDate},
+				#{ptTime},
+				#{xcrdVal},
+				#{ycrdVal},
+				#{temprVal},
+				#{prcp1TimeQnt},
+				#{skySttusCd},
+				#{ewWindCmpntVal},
+				#{snWindCmpntVal},
+				#{humdtRate},
+				#{prcpShapCd},
+				#{thnbltCd},
+				#{wdVal},
+				#{wsVal},
+				now(),
+				#{cretUserId}
+            )
+            
+     </insert>
     <!--    -->
-     <update id="updateForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastSpaceDataVo">
+     <!-- <update id="updateForecastSpaceData" parameterType="com.kt.airmap.external.kma.vo.forcast.ForecastGripSpaceDataVo">
  		UPDATE TB_INF_RGN_FOREC
  		<set>
 	 		<if test='prctPrbb !=null and prctPrbb !=""'> 
@@ -143,24 +180,33 @@
 			AND FOREC_TIME = #{forecTime}
 			AND XCRD_VAL = #{xcrdVal}
 			AND YCRD_VAL= #{ycrdVal};
-    </update> 
+    </update>  -->
 
-     <insert id = "insertLifeIndexData"  parameterType="com.kt.airmap.external.kma.vo.lifeindex.LifeIndexDataVo">
-    	 INSERT INTO MY_TEST
+     <insert id = "insertLifeIndex"  parameterType="com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo">
+    	 INSERT INTO TB_INF_LIFE_INDEXN_TXN 
     	 (
-    		PT_DATE ,   
-			PT_TIME ,   
-			INDEX_CD,   
-			BSTOR_CD,   
-			PRCT_VAL 
+    		PT_DATE,
+			PT_TIME,
+			FOREC_DATE,
+			FOREC_TIME,
+			INDEXN_CD,
+			BSTOR_CD,
+			FOREC_VAL,
+			CRET_DT,
+			CRET_USER_ID
+
     	 )
     	 VALUES
     	 (
     	 	#{ptDate},
     	 	#{ptTime},
-    	 	#{indexCd},
+    	 	#{forecDate},
+    	 	#{forecTime},
+    	 	#{indexnCd},
     	 	#{bstorCd},
-    	 	#{prctVal}
+    	 	#{forecVal},
+    	 	now(),
+    	 	#{cretUserId}
     	 )
     	 
      </insert>
@@ -200,17 +246,6 @@
     <delete id = "deleteLocationCode">
    		DELETE FROM TB_INF_BSTOR_CD;
     </delete>
-   
-   
-    <insert id = "insertMyT" >
-   		INSERT INTO MY_T
-   		( 
-	   		my_c
-		)
-		VALUES
-		(   
-		    '40000'
-		);
-   </insert>
+
 
 </mapper>

@@ -1,5 +1,6 @@
-package com.kt.airmap.external.kma.batch.kma;
+package com.kt.airmap.external.kma.batch;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -17,13 +18,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.kt.airmap.base.common.DateUtil;
-import com.kt.airmap.external.kma.batch.kma.tasklet.ForecastTasklet;
+import com.kt.airmap.external.kma.batch.tasklet.ForecastGripTasklet;
 
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
-public class ForecastConfiguration {
+public class ForecastGripConfiguration {
 
+	private static Logger log = Logger.getLogger(ForecastGripConfiguration.class); 
+	
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
 
@@ -34,37 +37,38 @@ public class ForecastConfiguration {
 	private SimpleJobLauncher jobLauncher;
 	
 
-    //@Scheduled(cron="${cron.expression}")
+    //@Scheduled(cron="${cron.forc.grip.expr}")
+	//@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 
 		JobParameters param = new JobParametersBuilder()
-				.addString("JobID", String.valueOf(System.currentTimeMillis()))
+				.addString("forecast_grip_job_id", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
 
-		JobExecution execution = jobLauncher.run(forecast_job(), param);
+		JobExecution execution = jobLauncher.run(forecast_grip_job(), param);
 		System.out.println("Job finished with status :" + execution.getStatus());
 	}
 	
 	@Bean
-	public Job forecast_job() {
-		return jobBuilderFactory.get("forecast_job")
+	public Job forecast_grip_job() {
+		return jobBuilderFactory.get("forecast_grip_job")
 				.incrementer(new RunIdIncrementer())
-				.flow(forecast_step())
+				.flow(forecast_grip_step())
 				.end()
 				.build();
 	}
 
 	@Bean
-	public Step forecast_step() {
-		return stepBuilderFactory.get("forecast_step")
-				.tasklet(forecastTasklet())
+	public Step forecast_grip_step() {
+		return stepBuilderFactory.get("forecast_grip_step")
+			    .tasklet(forecastGripTasklet())
 				.build();
 	}
 		
 	@Bean
-	public ForecastTasklet forecastTasklet() {
+	public ForecastGripTasklet forecastGripTasklet() {
 		
-		ForecastTasklet tasklet = new ForecastTasklet();
+		ForecastGripTasklet tasklet = new ForecastGripTasklet();
 		tasklet.setDateTime(DateUtil.getCalTime(0,-3,0).substring(0,8), DateUtil.getCalTime(0, -3, 0).substring(8,10) + "00");
 
 		return tasklet;

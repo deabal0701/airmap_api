@@ -1,6 +1,5 @@
 package com.kt.airmap.external.kma.vo;
 
-
 public class Area {
 
 	private String code;

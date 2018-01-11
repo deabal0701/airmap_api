@@ -1,7 +1,8 @@
-package com.kt.airmap.external.kma.batch.kma;
+package com.kt.airmap.external.kma.batch;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -12,9 +13,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +20,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.kt.airmap.base.common.DateUtil;
-import com.kt.airmap.external.kma.batch.kma.tasklet.FoodPosioningTasklet;
+import com.kt.airmap.external.kma.batch.tasklet.FoodPosioningTasklet;
+import com.kt.airmap.external.kma.batch.tasklet.LocationCodeTasklet;
 
 @Configuration
 @EnableBatchProcessing
 @EnableScheduling
-public class FoodPosioningConfiguration {
+public class LocationCodeConfiguration {
+
+	private static Logger log = Logger.getLogger(LocationCodeConfiguration.class); 
 
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
@@ -39,45 +40,42 @@ public class FoodPosioningConfiguration {
 	private SimpleJobLauncher jobLauncher;
 	
 	
-   // @Scheduled(cron="${cron.expression}")
+    //@Scheduled(cron="${cron.kma.loc.expr}")
 	public void perform() throws Exception {
-	
-		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))
-				.toJobParameters();
 
-		JobExecution execution = jobLauncher.run(foodPosioning_Job(), param);
-		System.out.println("Job finished with status :" + execution.getStatus());
+    	System.out.println("Job Started at :" + new Date());
+		JobParameters param = new JobParametersBuilder()
+				.addString("LocationCode_JobID", String.valueOf(System.currentTimeMillis()))
+				.toJobParameters();
+		
+		JobExecution execution = jobLauncher.run(locationCode_Job(), param);
+	
 	}
 	
 	@Bean
-	public Job foodPosioning_Job() {
-		return jobBuilderFactory.get("foodPosioning_Job")
+	public Job locationCode_Job() {
+		return jobBuilderFactory.get("locationCode_Job")
 				.incrementer(new RunIdIncrementer())
-				.flow(foodPosioning_step())
+				.flow(locationCode_Step())
 				.end()
 				.build();
 	}
 
 	@Bean
-	public Step foodPosioning_step() {
-		return stepBuilderFactory.get("foodPosioning_step")
-				.tasklet(foodPosioningTasklet())
+	public Step locationCode_Step() {
+		return stepBuilderFactory.get("locationCode_Step")
+				.tasklet(locationCodeTasklet())
 				.build();
 	}
 
-//	@Bean
-//	public Step foodPosioning_step() {
-//		return stepBuilderFactory.get("foodPosioning_step").chunk(100).reader(testReader()).processor(testProcessor()).writer(testWriter()).build();
-//	}
 	
 
 	@Bean
-	public FoodPosioningTasklet foodPosioningTasklet() {
+	public LocationCodeTasklet locationCodeTasklet() {
 		
-		FoodPosioningTasklet tasklet = new FoodPosioningTasklet();
+		LocationCodeTasklet tasklet = new LocationCodeTasklet();
 		tasklet.setDateTime(DateUtil.getToday(),DateUtil.getTime().substring(0,2));
 
 		return tasklet;
 	}
-
 }

@@ -55,7 +55,7 @@ public class RestControllerMessageAdvice implements ResponseBodyAdvice<Object> {
 	}
 	
 	/**
-	 * 기본 예외처리 헨들러, 다른 예외처리 헨들러에서 처리되지 않은 예외들을 처리함.
+	 * 기본 예외처리 헨들러, 다른 예외처리 핸들러에서 처리되지 않은 예외들을 처리함.
 	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<BaseResponse> handleOtherExceptions(Exception ex, HttpServletRequest request) {

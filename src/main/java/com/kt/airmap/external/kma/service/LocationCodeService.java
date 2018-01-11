@@ -38,15 +38,10 @@ public class LocationCodeService {
     private final String KEY_Y = "y";
     
     //각각의 노드를 저장할 리스트
-    //private List<TownDTO> topList = new ArrayList<TownDTO>();
-    //private List<TownDTO> mdlList = new ArrayList<TownDTO>();
-    //private List<TownDTO> leafList = new ArrayList<TownDTO>();
-    
     private List<Area> topList = null;
     private List<Area> mdlList = null;
     private List<Area> leafList = null;
-    
-	
+   
 	public void locationCode(String stdDateTime) {
 	
 		topList = new ArrayList<Area>();
@@ -97,9 +92,6 @@ public class LocationCodeService {
 				town = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
 						parentName, pParentCode, pParentName, data.get(KEY_X).toString(), data.get(KEY_Y).toString());
 
-				//Todo : DB 저장 
-				//System.out.println("==============> " + town);
-				
 				AreaVo areaVo = new AreaVo();
 				areaVo.setBstorCd(data.get(KEY_CODE).toString());
 				areaVo.setCityNm(pParentName);

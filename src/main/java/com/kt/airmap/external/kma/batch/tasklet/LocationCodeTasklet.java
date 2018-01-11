@@ -1,4 +1,4 @@
-package com.kt.airmap.external.kma.batch.kma.tasklet;
+package com.kt.airmap.external.kma.batch.tasklet;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -8,15 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kt.airmap.external.kma.service.LocationCodeService;
 
-public class LocationCodeTasklet implements Tasklet{
+public class LocationCodeTasklet extends KMACommonTask implements Tasklet{
 
-	@Autowired
-	LocationCodeService locationCodeService;
-    private String stdDateTime;
-	
-	public void setDateTime(String exeDate, String exeTime) {
-		stdDateTime = exeDate + exeTime;
-	}
+//	@Autowired
+//	LocationCodeService locationCodeService;
+
 		
 	@Override
 	public RepeatStatus execute(StepContribution arg0, ChunkContext arg1) throws Exception {
