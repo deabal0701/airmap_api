@@ -82,7 +82,7 @@ public class FrozenConfiguration {
     @Bean
     public Step prozon_step1() {
         return stepBuilderFactory.get("prozon_step1")
-                .<LifeIndexVo, LifeIndexVo> chunk(3)
+                .<LifeIndexVo, LifeIndexVo> chunk(1)
                 .reader(lifeIndexReader())
                 .processor(lifeIndexProcessor())
                 .writer(lifeIndexWriter())  
@@ -100,10 +100,10 @@ public class FrozenConfiguration {
 //  	}
     
     
+    @Bean
 	public ItemReader<LifeIndexVo> lifeIndexReader(){
-	   
-    	List<LifeIndexVo> data =lifeIndexBatchService.lifeIndex("2018011012", Const.KMA_LIFE_WEATHER_WINTER_URI);
-		return new LifeIndexReader(data);
+	
+		return new LifeIndexReader(lifeIndexBatchService);
 	}
 
     @Bean

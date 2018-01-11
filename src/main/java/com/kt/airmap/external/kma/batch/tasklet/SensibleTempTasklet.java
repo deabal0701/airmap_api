@@ -14,7 +14,6 @@ public class SensibleTempTasklet extends KMACommonTask implements Tasklet {
 //	@Autowired
 //	LifeIndexService lifeIndexService;
 
-
 	@Override
 	public RepeatStatus execute(StepContribution paramStepContribution, ChunkContext paramChunkContext)
 			throws Exception {

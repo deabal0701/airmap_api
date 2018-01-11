@@ -51,7 +51,13 @@ public class LifeIndexService  {
 		}
 	}
 
-
+    /**
+     * 
+     * @param stdDateTime
+     * @param parameter
+     * @param urlPath
+     * @throws Exception
+     */
 	public void lifeIndexData(String stdDateTime, Map<String, String> parameter,String urlPath) throws Exception  {
 		
 		List<AreaVo> areaListVo = extCommService.getAreaList(Const.AREA.KMA_AREA_CODE);
@@ -87,6 +93,7 @@ public class LifeIndexService  {
 					    	lifeIndexVo.setForecVal(p.getBody().getIndexModel().getH3());
 					    }
 						
+						//Todo : List에 담아놓고 한번에 처리하는 방안?
 						kMAMapperDao.addLifeIndex(lifeIndexVo);
 					}
 				}

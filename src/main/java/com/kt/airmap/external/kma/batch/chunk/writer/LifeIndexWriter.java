@@ -27,7 +27,7 @@ public class LifeIndexWriter implements ItemWriter<LifeIndexVo> {
 		 	
  			LifeIndexVo lifeIndexVo = iterator.next();
  			kMAMapperDao.addLifeIndex(lifeIndexVo);
-		
+ 		
 		}
 	}
 

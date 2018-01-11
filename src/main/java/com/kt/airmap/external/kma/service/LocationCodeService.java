@@ -23,7 +23,7 @@ import com.kt.airmap.external.kma.vo.Area;
 @Service
 public class LocationCodeService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ForecastService.class);
+	private static final Logger logger = LoggerFactory.getLogger(LocationCodeService.class);
  	
 	@Autowired
 	protected KMALocAdaptorService kmaLocAdaptorService;
@@ -31,7 +31,7 @@ public class LocationCodeService {
 	@Autowired
 	protected  KMAMapperDao kMAMapperDao;
 	
-	  //KEY정보
+	//KEY정보
     private final String KEY_CODE = "code";
     private final String KEY_VALUE = "value";
     private final String KEY_X = "x";
@@ -78,18 +78,18 @@ public class LocationCodeService {
 			String pParentCode, String pParentName, boolean isLast) {
 
 		JSONObject data = null;
-		Area town = null;
+		Area area = null;
 		for (int i = 0; i < array.size(); i++) {
 			data = (JSONObject) array.get(i);
 
 			if (!isLast) {
 				// 최상, 중간 노드
-				town = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
+				area = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
 						parentName, pParentCode, pParentName);
 
 			} else {
 				// 최하 노드
-				town = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
+				area = new Area(data.get(KEY_CODE).toString(), data.get(KEY_VALUE).toString(), parentCode,
 						parentName, pParentCode, pParentName, data.get(KEY_X).toString(), data.get(KEY_Y).toString());
 
 				AreaVo areaVo = new AreaVo();
@@ -108,9 +108,8 @@ public class LocationCodeService {
 				kMAMapperDao.addLocationCode(areaVo);
 				
 			}
-
-			System.out.println(town);
-			list.add(town);
+			list.add(area);
+			logger.debug(area.toString());
 
 		}
 		return list;
