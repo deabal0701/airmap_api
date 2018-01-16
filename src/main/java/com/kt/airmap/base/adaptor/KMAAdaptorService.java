@@ -42,7 +42,8 @@ public class KMAAdaptorService {
     	return roundRobinCount++;
     }
     
-    private URI getUrl(String path) {
+    @SuppressWarnings("unused")
+	private URI getUrl(String path) {
     	if (urls != null && urls.size() > 0) {
 			return getUrl(urls.get(getRoundRobinCount(urls.size()) - 1) + contextPath, path);
 		}

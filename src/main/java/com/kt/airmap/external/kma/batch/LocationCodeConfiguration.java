@@ -28,7 +28,7 @@ import com.kt.airmap.external.kma.batch.tasklet.LocationCodeTasklet;
 @EnableScheduling
 public class LocationCodeConfiguration {
 
-	private static Logger log = Logger.getLogger(LocationCodeConfiguration.class); 
+	private static Logger logger = Logger.getLogger(LocationCodeConfiguration.class); 
 
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
@@ -42,14 +42,12 @@ public class LocationCodeConfiguration {
 	
     //@Scheduled(cron="${cron.kma.loc.expr}")
 	public void perform() throws Exception {
-
-    	System.out.println("Job Started at :" + new Date());
+    	
 		JobParameters param = new JobParametersBuilder()
-				.addString("LocationCode_JobID", String.valueOf(System.currentTimeMillis()))
+				.addString("LocationCode_Job_ID", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
-		
 		JobExecution execution = jobLauncher.run(locationCode_Job(), param);
-	
+	   
 	}
 	
 	@Bean
@@ -67,8 +65,6 @@ public class LocationCodeConfiguration {
 				.tasklet(locationCodeTasklet())
 				.build();
 	}
-
-	
 
 	@Bean
 	public LocationCodeTasklet locationCodeTasklet() {

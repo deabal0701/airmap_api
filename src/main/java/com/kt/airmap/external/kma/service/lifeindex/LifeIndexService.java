@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexResponse;
 @Service
 public class LifeIndexService  {
 
+	private  Logger logger = LoggerFactory.getLogger(LifeIndexService.class);
+	
 	@Autowired
 	protected KMAAdaptorService airmapApiService;
 	

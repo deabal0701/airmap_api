@@ -14,10 +14,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -38,17 +41,14 @@ import com.kt.airmap.base.filter.LoggerFilter;
 })
 
 public class AirMapApplication extends SpringBootServletInitializer implements WebApplicationInitializer {
-	
-	public static void main(String[] args) {
 		
-		 SpringApplication.run(AirMapApplication.class, args);
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+		return configurer;
 	}
 	
-	@Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(AirMapApplication.class);
-    }
-
+	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 	
@@ -78,13 +78,12 @@ public class AirMapApplication extends SpringBootServletInitializer implements W
     //    dbLoggingFilter.addMappingForUrlPatterns(dispatcherTypes, true, "/*");
     //    dbLoggingFilter.addMappingForUrlPatterns(dispatcherTypes, true, "/system/*");
     //    dbLoggingFilter.setAsyncSupported(true);
-        
-      
-		super.onStartup(servletContext);
+  
+        super.onStartup(servletContext);
 	}
 	
-	/*  @Bean
-      public HttpMessageConverter<String> responseBodyConverter() {
-          return new StringHttpMessageConverter(Charset.forName("UTF-8"));
-      }*/
+	public static void main(String[] args) {
+		
+		 SpringApplication.run(AirMapApplication.class, args);
+	}
 }

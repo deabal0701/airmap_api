@@ -47,6 +47,7 @@ public class Const {
 	public static final String KMA_LIFE_WEATHER_INDEX_SERVICE_KEY = "ri2HK3TW12dyrwDtk6jUK4W1b3w46GY3weGUg7l0kx0H3I%2Bc1l2kuTyKDUZPXQvPeW05bPShKSkfFjVR%2BSUUEg%3D%3D";
     
 	
+	/** AREA 에서 CODE, GRID 좌표를 구분 */
 	public static class AREA {
 		public static final String KMA_AREA_CODE = "CODE";
 		public static final String KMA_AREA_GRID = "GRID";

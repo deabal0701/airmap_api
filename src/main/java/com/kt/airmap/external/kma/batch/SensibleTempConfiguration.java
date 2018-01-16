@@ -25,7 +25,7 @@ import com.kt.airmap.external.kma.batch.tasklet.SensibleTempTasklet;
 @EnableScheduling
 public class SensibleTempConfiguration {
 
-	private static Logger log = Logger.getLogger(SensibleTempConfiguration.class); 
+	private static Logger logger = Logger.getLogger(SensibleTempConfiguration.class); 
 	
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
@@ -37,27 +37,28 @@ public class SensibleTempConfiguration {
 	private SimpleJobLauncher jobLauncher;
 	
 	//@Scheduled(cron="${cron.life.sens.expr}")
+	//@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 
 		JobParameters param = new JobParametersBuilder()
-				.addString("JobID", String.valueOf(System.currentTimeMillis()))
+				.addString("sensibleTemp_Job_ID", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
 		JobExecution execution = jobLauncher.run(sensibleTemp_Job(), param);
-		log.debug(execution.getCreateTime());
+		logger.debug("Job finished with status :" + execution.getStatus());
 	}
 	
 	@Bean
 	public Job sensibleTemp_Job() {
 		return jobBuilderFactory.get("sensibleTemp_Job")
 				.incrementer(new RunIdIncrementer())
-				.flow(sensibleTemp_step())
+				.flow(sensibleTemp_Step())
 				.end().build();
 	}
 	
 	@Bean
-	public Step sensibleTemp_step() {
+	public Step sensibleTemp_Step() {
 		return stepBuilderFactory
-				.get("sensibleTemp_step")
+				.get("sensibleTemp_Step")
 				.tasklet(sensibleTempTasklet())
 				.build();
 	}

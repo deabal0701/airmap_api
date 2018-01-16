@@ -13,24 +13,6 @@ import com.kt.airmap.external.kma.service.LifeIndexBatchService;
 import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo;
 
 public class LifeIndexReader implements ItemReader<LifeIndexVo>{
-
-	
-//	private final Iterator<LifeIndexVo> data;
-//		
-//		public LifeIndexReader(List<LifeIndexVo> data) {
-//			this.data = data.iterator();
-//		}
-//	
-//		@Override
-//		public LifeIndexVo read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-//			if(this.data.hasNext()){
-//				return this.data.next();
-//			}else{
-//				return null;
-//			}
-//		}
-	
-	
 	
 	LifeIndexBatchService lifeIndexBatchService;
 

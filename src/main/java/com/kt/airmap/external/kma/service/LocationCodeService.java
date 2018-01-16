@@ -16,9 +16,8 @@ import com.kt.airmap.base.adaptor.KMALocAdaptorService;
 import com.kt.airmap.base.common.geoUtil.GridXYToLatLngConverter;
 import com.kt.airmap.base.common.geoUtil.LatXLngY;
 import com.kt.airmap.external.kma.mapper.dao.KMAMapperDao;
-import com.kt.airmap.external.kma.service.forecast.ForecastService;
-import com.kt.airmap.external.kma.vo.AreaVo;
 import com.kt.airmap.external.kma.vo.Area;
+import com.kt.airmap.external.kma.vo.AreaVo;
 
 @Service
 public class LocationCodeService {

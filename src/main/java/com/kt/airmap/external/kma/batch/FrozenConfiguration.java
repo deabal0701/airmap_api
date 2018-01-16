@@ -1,9 +1,5 @@
 package com.kt.airmap.external.kma.batch;
 
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -22,11 +18,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.kt.airmap.Const;
+import com.kt.airmap.base.common.DateUtil;
 import com.kt.airmap.external.kma.batch.chunk.listener.JobCompletionNotificationListener;
 import com.kt.airmap.external.kma.batch.chunk.processor.LifeIndexProcessor;
 import com.kt.airmap.external.kma.batch.chunk.reader.LifeIndexReader;
 import com.kt.airmap.external.kma.batch.chunk.writer.LifeIndexWriter;
+import com.kt.airmap.external.kma.batch.tasklet.FoodPosioningTasklet;
+import com.kt.airmap.external.kma.batch.tasklet.SensibleTempTasklet;
 import com.kt.airmap.external.kma.service.LifeIndexBatchService;
 import com.kt.airmap.external.kma.vo.lifeindex.LifeIndexVo;
 
@@ -46,76 +44,70 @@ public class FrozenConfiguration {
 
 	@Autowired
     public LifeIndexBatchService lifeIndexBatchService;
-	
-    
+  
 
-    @Scheduled(cron="${cron.expression}")
+   // @Scheduled(cron="${cron.expression}")
  	public void perform() throws Exception {
  	
- 		JobParameters param = new JobParametersBuilder().addString("prozenJob_ID", String.valueOf(System.currentTimeMillis()))
+ 		JobParameters param = new JobParametersBuilder().addString("prozen_Job_ID", String.valueOf(System.currentTimeMillis()))
  				.toJobParameters();
 
- 		JobExecution execution = jobLauncher.run(prozenJob(null), param);
+ 		JobExecution execution = jobLauncher.run(prozen_Job(null), param);
  		System.out.println("Job finished with status :" + execution.getStatus());
  	}
     
     @Bean
-    public Job prozenJob(JobCompletionNotificationListener listener ) {
+    public Job prozen_Job(JobCompletionNotificationListener listener ) {
         return jobBuilderFactory.get("prozenJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(prozon_step1())
+                .flow(prozon_Step())
                 .end()
                 .build();
     }
+    
+	@Bean
+	public Step prozon_Step() {
+		return stepBuilderFactory.get("prozon_Step")
+				.tasklet(sensibleTempTasklet())
+				.build();
+	}
 
-    //    @Bean
-//    public Step prozon_step1() {
-//        return stepBuilderFactory.get("prozon_step1")
-//                .<LifeIndexVo, LifeIndexVo> chunk(3)
+	
+	@Bean
+	public SensibleTempTasklet sensibleTempTasklet() {
+		
+		SensibleTempTasklet tasklet = new SensibleTempTasklet();
+		tasklet.setDateTime(DateUtil.getToday(),DateUtil.getTime().substring(0,2));
+
+		return tasklet;
+	}
+
+//    chunk를 사용 하는 Case	
+//    @Bean
+//    public Step prozon_Step() {
+//        return stepBuilderFactory.get("prozon_Step")
+//                .<LifeIndexVo, LifeIndexVo> chunk(1)
 //                .reader(lifeIndexReader())
 //                .processor(lifeIndexProcessor())
 //                .writer(lifeIndexWriter())  
 //                .build();
 //    }
-    
-    @Bean
-    public Step prozon_step1() {
-        return stepBuilderFactory.get("prozon_step1")
-                .<LifeIndexVo, LifeIndexVo> chunk(1)
-                .reader(lifeIndexReader())
-                .processor(lifeIndexProcessor())
-                .writer(lifeIndexWriter())  
-                .build();
-    }
-
-    
-//    @Bean
-//  	public Step step1() {
 //
-//  		return stepBuilderFactory.get("step1")
-//  				.<String,String>chunk(2)
-//  				.reader(new Reader())
-//  					.build();
-//  	}
+//    
+//    @Bean
+//	public ItemReader<LifeIndexVo> lifeIndexReader(){
+//		return new LifeIndexReader(lifeIndexBatchService);
+//	}
+//
+//    @Bean
+//    public LifeIndexProcessor lifeIndexProcessor() {
+//        return new LifeIndexProcessor();
+//    }
+//
+//	@Bean
+//    public ItemWriter<LifeIndexVo> lifeIndexWriter() {
+//        return new LifeIndexWriter();
+//    }
     
-    
-    @Bean
-	public ItemReader<LifeIndexVo> lifeIndexReader(){
-	
-		return new LifeIndexReader(lifeIndexBatchService);
-	}
-
-    @Bean
-    public LifeIndexProcessor lifeIndexProcessor() {
-        return new LifeIndexProcessor();
-    }
-
-	@Bean
-    public ItemWriter<LifeIndexVo> lifeIndexWriter() {
-        return new LifeIndexWriter();
-    }
-    
-
-
 }

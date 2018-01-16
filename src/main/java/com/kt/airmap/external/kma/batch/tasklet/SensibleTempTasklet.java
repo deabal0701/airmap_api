@@ -17,6 +17,7 @@ public class SensibleTempTasklet extends KMACommonTask implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution paramStepContribution, ChunkContext paramChunkContext)
 			throws Exception {
+	 	  
 		  lifeIndexService.lifeIndex(stdDateTime, Const.KMA_LIFE_WEATHER_SENSIBLE_TEMP_URI);
 		return RepeatStatus.FINISHED;
 	}

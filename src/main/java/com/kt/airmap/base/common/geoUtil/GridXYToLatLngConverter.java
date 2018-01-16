@@ -82,6 +82,3 @@ public class GridXYToLatLngConverter {
 		return rs;
 	}
 }
-
-
-

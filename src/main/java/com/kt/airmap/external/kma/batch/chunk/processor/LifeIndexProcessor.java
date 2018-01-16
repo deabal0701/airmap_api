@@ -13,7 +13,6 @@ public class LifeIndexProcessor implements ItemProcessor<LifeIndexVo, LifeIndexV
 	@Override
 	public LifeIndexVo process(LifeIndexVo lifeIndexVo) throws Exception {
 		
-       // final LifeIndexVo transformed = new LifeIndexVo();
         log.info("Converting (" + lifeIndexVo + ") into (" + lifeIndexVo + ")");
 
         return lifeIndexVo;

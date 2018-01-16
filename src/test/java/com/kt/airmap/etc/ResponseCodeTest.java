@@ -1,4 +1,4 @@
-package com.kt.airmap;
+package com.kt.airmap.etc;
 
 import com.kt.airmap.base.message.ResponseCode;
 

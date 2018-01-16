@@ -16,8 +16,15 @@ public class ForecastGripTasklet extends KMACommonTask implements Tasklet{
 
 	
 	@Override
-	public RepeatStatus execute(StepContribution arg0, ChunkContext arg1) throws Exception {
+	public RepeatStatus execute(StepContribution paramStepContribution, ChunkContext paramChunkContext) throws Exception {
+		
+		  System.out.println("############ ChunkContext getJobName==> " + paramChunkContext.getStepContext().getJobName());
+		  System.out.println("############ ChunkContext getStepName==> " + paramChunkContext.getStepContext().getStepName());
+		  System.out.println("############ ChunkContext getJobParameters==> " + paramChunkContext.getStepContext().getJobParameters());
+		  System.out.println("############ ChunkContext ==> " + paramChunkContext.getStepContext());
+		  
 		forcastService.forecast(stdDateTime,Const.KMA_DIST_FORCAST_GRIB_URI);
-	  	return RepeatStatus.FINISHED;
+
+		return RepeatStatus.FINISHED;
 	}
 }

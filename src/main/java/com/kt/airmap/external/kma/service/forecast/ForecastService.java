@@ -1,6 +1,7 @@
 package com.kt.airmap.external.kma.service.forecast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +29,6 @@ import com.kt.airmap.external.kma.vo.forcast.ForecastResponse;
 /**
 동네예보
  -초단기실황조회: getForecastGribRequest
- -초단기예보조회: getForecastTimeDataRequest
  -동네예보조회: getForecastSpaceDataRequest
 */
 @Service
@@ -75,8 +75,10 @@ public class ForecastService {
 		
 		List<AreaVo> areaListVo = extCommService.getAreaList(Const.AREA.KMA_AREA_GRID);
 		Iterator<AreaVo> iterator = areaListVo.iterator();
- 		int i = 0;
  		
+		/** DB 저장전 임시 보관 List */  
+		List<ForecastGripVo> tmpForcastGripVoList = new ArrayList<ForecastGripVo>();
+		
  		while(iterator.hasNext()){
  	
  			AreaVo areaVo = iterator.next();
@@ -87,9 +89,12 @@ public class ForecastService {
 		    KMAForecastResponse response  = (KMAForecastResponse) this.airmapApiService.get(Const.KMA_DIST_FORCAST_GRIB_URI, parameter, KMAForecastResponse.class);
 
 			System.out.println("response[" +areaVo.getXcrdVal() + "," +areaVo.getYcrdVal() + "] =>" + response.getResponse().toString());
-
+			
+		
+			
 			if (response.getResponse() != null) {
 
+				@SuppressWarnings("unchecked")
 				Map<String, Object> responseData = (HashMap<String,Object>) response.getResponse();
 				if (responseData.size() > 0) {
 							
@@ -154,17 +159,30 @@ public class ForecastService {
 								if ("WSD".equals(itemVo.getCategory())) {
 									forecastGripVo.setWsVal(Double.valueOf(obsrValue));
 								}
-								
 							}
 							
-							kMAMapperDao.addForecastGrip(forecastGripVo);
+							//리스트에 저장
+							tmpForcastGripVoList.add(forecastGripVo);
 						}
 					}
 				}
 			}
  		}
+ 		
+ 		//ToDo DB 저장
+ 		writeToDB(tmpForcastGripVoList);
 	}
 
-
+	/**
+	 * 
+	 * @param tmpForcastGripVoList
+	 */
+	private void writeToDB(List<ForecastGripVo> tmpForcastGripVoList) {
+		
+		Iterator<ForecastGripVo> iter = tmpForcastGripVoList.iterator();
+		while(iter.hasNext()){
+			kMAMapperDao.addForecastGrip(iter.next());
+		}
+	}
 
  }

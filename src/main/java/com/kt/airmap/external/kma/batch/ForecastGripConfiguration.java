@@ -25,7 +25,7 @@ import com.kt.airmap.external.kma.batch.tasklet.ForecastGripTasklet;
 @EnableScheduling
 public class ForecastGripConfiguration {
 
-	private static Logger log = Logger.getLogger(ForecastGripConfiguration.class); 
+	private static Logger logger = Logger.getLogger(ForecastGripConfiguration.class); 
 	
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
@@ -36,31 +36,30 @@ public class ForecastGripConfiguration {
 	@Autowired
 	private SimpleJobLauncher jobLauncher;
 	
-
     //@Scheduled(cron="${cron.forc.grip.expr}")
-	//@Scheduled(cron="${cron.expression}")
+	@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 
 		JobParameters param = new JobParametersBuilder()
-				.addString("forecast_grip_job_id", String.valueOf(System.currentTimeMillis()))
+				.addString("forecast_Grip_Job_Id", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
 
-		JobExecution execution = jobLauncher.run(forecast_grip_job(), param);
+		JobExecution execution = jobLauncher.run(forecast_Grip_Job(), param);
 		System.out.println("Job finished with status :" + execution.getStatus());
 	}
 	
 	@Bean
-	public Job forecast_grip_job() {
-		return jobBuilderFactory.get("forecast_grip_job")
+	public Job forecast_Grip_Job() {
+		return jobBuilderFactory.get("forecast_Grip_Job")
 				.incrementer(new RunIdIncrementer())
-				.flow(forecast_grip_step())
+				.flow(forecast_Grip_Step())
 				.end()
 				.build();
 	}
 
 	@Bean
-	public Step forecast_grip_step() {
-		return stepBuilderFactory.get("forecast_grip_step")
+	public Step forecast_Grip_Step() {
+		return stepBuilderFactory.get("forecast_Grip_Step")
 			    .tasklet(forecastGripTasklet())
 				.build();
 	}
@@ -69,7 +68,7 @@ public class ForecastGripConfiguration {
 	public ForecastGripTasklet forecastGripTasklet() {
 		
 		ForecastGripTasklet tasklet = new ForecastGripTasklet();
-		tasklet.setDateTime(DateUtil.getCalTime(0,-3,0).substring(0,8), DateUtil.getCalTime(0, -3, 0).substring(8,10) + "00");
+		tasklet.setDateTime(DateUtil.getCalTime(0,0,0).substring(0,8), DateUtil.getCalTime(0, 0, 0).substring(8,10) + "00");
 
 		return tasklet;
 	}

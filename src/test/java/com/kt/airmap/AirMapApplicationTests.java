@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kt.airmap.base.adaptor.KMALocAdaptorService;
 import com.kt.airmap.external.kma.service.LocationCodeService;
 import com.kt.airmap.external.kma.vo.forcast.ForecastResponse;
 

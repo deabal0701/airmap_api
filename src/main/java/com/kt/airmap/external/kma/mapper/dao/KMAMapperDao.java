@@ -1,9 +1,11 @@
 package com.kt.airmap.external.kma.mapper.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kt.airmap.external.kma.mapper.KMAMapper;
@@ -26,6 +28,7 @@ public class KMAMapperDao {
 		return kMAMapper.selectArea(selType);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void addLifeIndex(LifeIndexVo lifeIndexVo) {
 		kMAMapper.insertLifeIndex(lifeIndexVo);
 	}
@@ -40,6 +43,11 @@ public class KMAMapperDao {
 
 	public void addForecastGrip(ForecastGripVo forecastGripVo) {
 		kMAMapper.insertForecastGrip(forecastGripVo);
+	}
+
+	public List<Map<String, Object>> getBatchProperties() {
+		return kMAMapper.selectBatchProperties();
+	
 	}
 
 }

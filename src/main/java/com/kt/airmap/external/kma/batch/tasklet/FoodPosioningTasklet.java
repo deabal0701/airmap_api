@@ -11,23 +11,15 @@ import com.kt.airmap.external.kma.service.lifeindex.LifeIndexService;
 
 public class FoodPosioningTasklet extends KMACommonTask implements Tasklet{
 	
-//	@Autowired
-//	LifeIndexService lifeIndexService;
-//
-//    private String stdDateTime;
-//	
-//	public void setDateTime(String exeDate, String exeTime) {
-//		stdDateTime = exeDate + exeTime;
-//	}
 	
 	@Override
 	public RepeatStatus execute(StepContribution paramStepContribution, ChunkContext paramChunkContext)
 			throws Exception {
 		
+	
 	    lifeIndexService.lifeIndex(stdDateTime, Const.KMA_LIFE_WEATHER_FOOD_POSISONING_URI);
 	    System.out.println(String.format("%s has been executed on thread %s", paramChunkContext.getStepContext(),Thread.currentThread().getName()));
 
 	  	return RepeatStatus.FINISHED;
 	}
-	
 }

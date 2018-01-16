@@ -1,4 +1,4 @@
-package com.kt.airmap;
+package com.kt.airmap.etc;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

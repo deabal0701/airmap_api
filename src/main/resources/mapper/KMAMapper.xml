@@ -9,10 +9,10 @@
   <select id="selectArea" parameterType = "java.lang.String" resultType="com.kt.airmap.external.kma.vo.AreaVo" >
 	SELECT 
 		distinct 
-		<if test="value != null and value = 'CODE'" >
+		<if test="_parameter != null and _parameter.equals('CODE')" >
 			bstor_cd as bstorCd 
 		</if>	
-		<if test="value != null and value == 'GRID'" >
+		<if test="_parameter != null and _parameter.equals('GRID')" >
 			ycrd_val as ycrdVal,
 			xcrd_val as xcrdVal
 		</if>	
@@ -246,6 +246,11 @@
     <delete id = "deleteLocationCode">
    		DELETE FROM TB_INF_BSTOR_CD;
     </delete>
-
+    
+    <select id = "selectBatchProperties" resultType="com.kt.airmap.external.util.vo.PropertiesVo" >
+    	select batch_nm as batchIdd, batch_pgm_nm as configKey, exe_cycl_val as configVal from tb_com_batch_bas;
+    </select>
+    
+    
 
 </mapper>

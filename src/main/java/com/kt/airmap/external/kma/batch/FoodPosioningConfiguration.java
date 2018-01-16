@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import com.kt.airmap.base.common.DateUtil;
 import com.kt.airmap.external.kma.batch.tasklet.FoodPosioningTasklet;
@@ -25,7 +24,7 @@ import com.kt.airmap.external.kma.batch.tasklet.FoodPosioningTasklet;
 @EnableScheduling
 public class FoodPosioningConfiguration {
 
-	private static Logger log = Logger.getLogger(LocationCodeConfiguration.class); 
+	private static Logger logger = Logger.getLogger(LocationCodeConfiguration.class); 
 	
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
@@ -37,40 +36,32 @@ public class FoodPosioningConfiguration {
 	private SimpleJobLauncher jobLauncher;
 	
 	
-   // @Scheduled(cron="${cron.life.food.expr}")
+    //@Scheduled(cron="${cron.life.food.expr}")
+	//@Scheduled(cron="${cron.expression}")
 	public void perform() throws Exception {
 	
-		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))
+		JobParameters param = new JobParametersBuilder().addString("foodPosioning_Job_ID", String.valueOf(System.currentTimeMillis()))
 				.toJobParameters();
 
 		JobExecution execution = jobLauncher.run(foodPosioning_Job(), param);
-		System.out.println("Job finished with status :" + execution.getStatus());
+		logger.debug("Job finished with status :" + execution.getStatus());
 	}
 	
 	@Bean
 	public Job foodPosioning_Job() {
 		return jobBuilderFactory.get("foodPosioning_Job")
 				.incrementer(new RunIdIncrementer())
-				.flow(foodPosioning_step())
+				.flow(foodPosioning_Step())
 				.end()
 				.build();
 	}
 
 	@Bean
-	public Step foodPosioning_step() {
-		return stepBuilderFactory.get("foodPosioning_step")
+	public Step foodPosioning_Step() {
+		return stepBuilderFactory.get("foodPosioning_Step")
 				.tasklet(foodPosioningTasklet())
 				.build();
 	}
-
-//	@Bean
-//	public Step foodPosioning_step() {
-//		return stepBuilderFactory.get("foodPosioning_step")
-//				.chunk(100)
-//				.reader(testReader())
-//				.processor(testProcessor())
-//				.writer(testWriter()).build();
-//	}
 	
 	@Bean
 	public FoodPosioningTasklet foodPosioningTasklet() {

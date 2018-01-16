@@ -9,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kt.airmap.external.kma.service.LocationCodeService;
 
 public class LocationCodeTasklet extends KMACommonTask implements Tasklet{
-
-//	@Autowired
-//	LocationCodeService locationCodeService;
-
 		
 	@Override
 	public RepeatStatus execute(StepContribution arg0, ChunkContext arg1) throws Exception {
